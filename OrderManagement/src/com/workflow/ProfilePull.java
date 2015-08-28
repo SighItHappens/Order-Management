@@ -57,13 +57,13 @@ public class ProfilePull {
 			custdetails.put("lname", cbean.getLastName());
 			custdetails.put("customerstatus", cbean.getCustomerStatus());
 			custdetails.put("billstartdate", cbean.getBillStartDate());
-			custdetails.put("connectionaddress", cbean.getConnectionAddress());
-			custdetails.put("billingaddress", cbean.getBillingAddress());
+			custdetails.put("connectionaddress", new JSONObject(cbean.getConnectionAddress()));
+			custdetails.put("billingaddress", new JSONObject(cbean.getBillingAddress()));
 			custdetails.put("email", cbean.getEmailId());
 			custdetails.put("contactnumber", cbean.getContactNumber());
 			custdetails.put("dateofbirth", cbean.getDateOfBirth());
 			profile.put("customerdetails", custdetails);
-			System.out.println(sbean + " " + pbean);
+			//System.out.println(sbean + " " + pbean);
 			if (sbean.getCustomerID() != 0 && pbean.getCustomerID() != 0) {
 				services = new JSONArray(sbean.getListOfServices());
 				products = new JSONArray(pbean.getListOfProducts());
@@ -121,7 +121,7 @@ public class ProfilePull {
 				temp.put("products", "null");
 				orders.put(temp);
 			}
-			profile.put("orderdetails", orders);
+			profile.put("orderhistory", orders);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

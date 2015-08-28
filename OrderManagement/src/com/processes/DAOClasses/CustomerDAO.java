@@ -144,7 +144,6 @@ public class CustomerDAO implements CustomerDAOInf {
 			}
 
 			con.close();
-			System.out.println(customerids+"PPP");
 			return customerids;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

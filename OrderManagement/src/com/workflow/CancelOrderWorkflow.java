@@ -15,9 +15,10 @@ import com.customers.DAOLookup;
 public class CancelOrderWorkflow extends Thread{
 	int orderid;
 	Persisting persist;
+	public boolean flag;
 	public CancelOrderWorkflow(int orderid){
 		persist=new Persisting();
-		System.out.println("per"+orderid);
+		flag=true;
 		this.orderid=orderid;
 		this.start();	
 	}
@@ -43,6 +44,9 @@ public class CancelOrderWorkflow extends Thread{
 			}
 			response=new JSONObject(new String(responseJson));
 		}
+		else{
+			flag=false;
+		}
 		if(response.getString("provisioningstatus").equals("cancelled"))
 		{
 			DAOLookup.setcInfo("request");
@@ -54,8 +58,10 @@ public class CancelOrderWorkflow extends Thread{
 		}
 		} catch (IOException e) {
 			e.printStackTrace();
+			flag=false;
 		} catch (JSONException e) {
 			e.printStackTrace();
+			flag=false;
 		}
 	}
 }

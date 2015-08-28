@@ -18,10 +18,13 @@ public class FinanceWorkflow extends Thread{
 	int suspend_resume;
 	int customerid;
 	Persisting persist;
+	public boolean flag;
 	public FinanceWorkflow(int suspend_resume,int customerid){
 		persist=new Persisting();
+		flag=true;
 		this.start();	
 	}
+	
 	@Override
 	public void run()
 	{
@@ -44,6 +47,9 @@ public class FinanceWorkflow extends Thread{
 			}
 			response=new JSONObject(new String(responseJson));
 		}
+		else{
+			flag=false;
+		}
 		if(response.getString("provisioningstatus").equals("suspended"))
 		{
 			DAOLookup.setcInfo("request");
@@ -52,11 +58,21 @@ public class FinanceWorkflow extends Thread{
 			DAOLookup.setcInfo("customer");
 			DAOFactory df2=DAOLookup.getDAOObject();
 			df.update("customer_status","suspended",customerid);
-		}
+		}else
+			if(response.getString("provisioningstatus").equals("resumed")){
+				DAOLookup.setcInfo("request");
+				DAOFactory df=DAOLookup.getDAOObject();
+				df.update("status","complete",requestid);
+				DAOLookup.setcInfo("customer");
+				DAOFactory df2=DAOLookup.getDAOObject();
+				df.update("customer_status","resumed",customerid);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			flag=false;
 		} catch (JSONException e) {
 			e.printStackTrace();
+			flag=false;
 		}
 	}
 

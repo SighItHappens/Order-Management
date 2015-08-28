@@ -1,5 +1,6 @@
 package com.rest;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 //asd
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +20,7 @@ import com.workflow.ChangeDuedateWorkflow;
 import com.workflow.FinanceWorkflow;
 import com.workflow.OrderWorkflow;
 import com.workflow.ProfilePull;
+import com.workflow.ProvisioningCompleted;
 
 // Plain old Java Object it does not extend as class or implements 
 // an interface
@@ -46,18 +49,9 @@ public class OMRestReciever {
 	public String billingAccountPullRequest(
 			@DefaultValue("null") @QueryParam("billingDate") String billDate,
 			@DefaultValue("null") @QueryParam("portfolio") String portfolio) {
-		System.out.println(billDate);
-
-		JSONObject result = BusinessLogic.getAccounts(billDate, portfolio);
-		return result.toString();
+		String result = BusinessLogic.getAccounts(billDate, portfolio);
+		return result;
 	}
-
-	// checking
-	// @GET
-	// @Path("/changeDueDate/{orderID}&{newDate}")
-	// @Produces(MediaType.APPLICATION_JSON)
-	// public String changeDueDateBySelfService(@PathParam("orderID")int
-	// orderID, @PathParam("newDate")String newDate) {
 
 	@GET
 	@Path("/financeConnectionStatus/{account_no}/{status}")
@@ -66,7 +60,10 @@ public class OMRestReciever {
 			@PathParam("status") int status) {
 		FinanceWorkflow financeworkflow = new FinanceWorkflow(status,
 				account_no);
-		return "true";
+		if(financeworkflow.flag)
+			return "true";
+		else 
+			return "false";
 	}
 
 	// checked
@@ -74,17 +71,11 @@ public class OMRestReciever {
 	@Path("/cancelOrder/{orderID}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String cancelOrderBySelfService(@PathParam("orderID") int orderID) {
-		System.out.println(orderID);
 		CancelOrderWorkflow cancelworkflow = new CancelOrderWorkflow(orderID);
-		return "true";
-	}
-
-	@GET
-	@Path("/orderPull/{orderID}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String orderPull(@PathParam("orderID") int orderID) {
-		JSONObject result = BusinessLogic.getOrderPull(orderID);
-		return "true";
+		if(cancelworkflow.flag)
+			return "true";
+		else
+			return "false";
 	}
 
 	// checked
@@ -99,19 +90,26 @@ public class OMRestReciever {
 		return "true";
 	}
 
-	// @POST
-	// @Path("/provisioningComplete")
-	// @Consumes("application/json")
-	// public int provisioningCompleteStatus(JSONObject product) {
-	// int result=provisioningStatus(product);
-	// return result;
-	// }
+	@POST
+	@Path("/provisioningComplete")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public String provisioningCompleteStatus(String product) {
+		ProvisioningCompleted pc = new ProvisioningCompleted();
+		String result=null;
+		try {
+			result=pc.provisioned(new JSONObject(product));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		if(result.equals("true"))
+			return "acknowledge";
+		else
+			return "failed";
+	}
 
-	// cheching
 	@POST
 	@Path("/submitorder")
 	public Response submitOrder(String product) {
-		System.out.println(product);
 		JSONObject jobj = null;
 		try {
 			jobj = new JSONObject(product);
@@ -119,7 +117,6 @@ public class OMRestReciever {
 			e.printStackTrace();
 		}
 		OrderWorkflow ord = new OrderWorkflow(jobj);
-
 		return Response.status(201).entity("true").build();
 	}
 
@@ -132,16 +129,16 @@ public class OMRestReciever {
 		String result = pf.profilePullById(Integer.parseInt(id));
 		return result;
 	}
-	
+
 	@GET
 	@Path("/profile")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String sendProfile(@DefaultValue("null")@QueryParam("accno") String accno){
+	public String sendProfile(
+			@DefaultValue("null") @QueryParam("accno") String accno) {
 		ProfilePull pf = new ProfilePull();
 		String result = pf.profilePullById(Integer.parseInt(accno));
 		return result;
-	} 
-
+	}
 
 	@GET
 	@Path("/profilePull/email/{email}")
@@ -158,17 +155,16 @@ public class OMRestReciever {
 	public String getOrder_or(@PathParam("order_id") String order_id)
 			throws JSONException {
 		ProfilePull pf = new ProfilePull();
-		String result=pf.orderPull(Integer.parseInt(order_id));
+		String result = pf.orderPull(Integer.parseInt(order_id));
 		return result;
 	}
-
 
 	@GET
 	@Path("/contract/{contract_id}")
 	public String getOrder_con(@PathParam("contract_id") String contract_id)
 			throws JSONException {
 		ProfilePull pf = new ProfilePull();
-		String result=pf.contractPull(Integer.parseInt(contract_id));
+		String result = pf.contractPull(Integer.parseInt(contract_id));
 		return result;
 
 	}

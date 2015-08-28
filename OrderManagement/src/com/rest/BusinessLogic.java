@@ -24,7 +24,7 @@ import com.customers.DAOLookup;
 import com.processes.DAOClasses.*;
 
 public class BusinessLogic {
-	public static JSONObject getAccounts(String billDate, String portfolio) {
+	public static String getAccounts(String billDate, String portfolio) {
 		DAOLookup.setcInfo("customer");
 		DAOFactory df = (CustomerDAO) DAOLookup.getDAOObject();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
@@ -34,10 +34,9 @@ public class BusinessLogic {
 			utilDate = formatter.parse(billDate);
 
 			Date date = new java.sql.Date(utilDate.getTime());
-			System.out.println("Date is"+date);
 			String customerids = ((CustomerDAO) df).billing(date, portfolio);
-			System.out.println(customerids+"SDFFC");
-			// String customerids="1001,1002,1003,1004,1005";
+			if(customerids.equals(""))
+				return "null";
 			StringTokenizer st = new StringTokenizer(customerids, ",");
 			JSONObject result = new JSONObject();
 			int count = st.countTokens();
@@ -52,15 +51,11 @@ public class BusinessLogic {
 			result.put("count", count);
 		
 		System.out.println(result);
-		return result;
+		return result.toString();
 		} catch (JSONException|ParseException  e) {
 
 			e.printStackTrace();
 			return null;
 		} 
-	}
-	public static JSONObject getOrderPull(int orderid){
-		
-		return null;
 	}
 }
