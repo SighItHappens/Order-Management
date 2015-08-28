@@ -1,0 +1,121 @@
+create or replace PACKAGE insert_values AS
+
+    function generate_custid(bus_type customer_table.line_of_business%type,fname customer_table.first_name%type,lname customer_table.last_name%type,
+   email customer_table.email_id%type,dob customer_table.date_of_birth%type,bill_addr customer_table.billing_address%type,
+   start_date customer_table.bill_start_date%type,
+   conn_addr customer_table.connection_address%type,
+   num customer_table.contact_number%type,cust_status customer_table.customer_status%TYPE) return INTEGER;
+   
+   
+   function generate_orderid(cid order_table.customer_id%type,book_date order_table.date_of_booking%type,
+   due order_table.due_date%type,ostatus order_table.order_status%type,
+   qty order_table.quantity%type,los order_table.list_of_services%type,
+   lop order_table.list_of_products%type) return INTEGER;
+   
+   function add_prod(custid products.customer_id%type,
+   listofprod products.list_of_products%type) return INTEGER;
+    
+    function serv(custid services.customer_id%type,
+   listofser services.list_of_services%type) return INTEGER;
+   
+   function generate_requestid(src request_response_table.sourc%type,syn request_response_table.sync%type,
+   tobj request_response_table.thread_object%type,st request_response_table.status%type,orderid request_response_table.order_id%type)  RETURN INTEGER;
+       
+   
+   function generate_contractid(mtype ves.model_type%type,cid ves.customer_id%type,
+   serv_class ves.class_of_service%type,fdate ves.from_date%type,
+   tdate ves.to_date%type,disc ves.discount_percentage%type,chn ves.chang%type,curr number,
+   max1 number) return INTEGER;
+   
+   function serv_prod(servid service_product.service_id%type,
+   listofprod service_product.list_of_products%type) return INTEGER;
+   
+END insert_values;
+
+
+
+
+
+
+
+
+
+
+create or replace PACKAGE BODY insert_values is
+
+FUNCTION generate_custid(bus_type customer_table.line_of_business%type,fname customer_table.first_name%type,lname customer_table.last_name%type,
+   email customer_table.email_id%type,dob customer_table.date_of_birth%type,bill_addr customer_table.billing_address%type,
+   start_date customer_table.bill_start_date%type,
+   conn_addr customer_table.connection_address%type,
+   num customer_table.contact_number%type,cust_status customer_table.customer_status%TYPE) RETURN integer is
+       new_custid integer;
+    BEGIN
+        new_custid:=sequence_cust_id.nextval;
+        insert into customer_table(customer_id, line_of_business, first_name,last_name,
+        email_id, date_of_birth, bill_start_date, billing_address, 
+         connection_address, contact_number,customer_status) values 
+        (new_custid,bus_type, fname,lname,email,dob, start_date, bill_addr, conn_addr,num, cust_status);
+    RETURN(new_custid);
+    END generate_custid;
+   
+   
+   FUNCTION generate_orderid(cid order_table.customer_id%type,book_date order_table.date_of_booking%type,
+   due order_table.due_date%type,ostatus order_table.order_status%type,
+   qty order_table.quantity%type,los order_table.list_of_services%type,
+   lop order_table.list_of_products%type) RETURN integer is
+        new_orderid integer;
+  BEGIN
+       new_orderid:=sequence_orderid.nextval;
+       insert into order_table(customer_id, order_id, date_of_booking, due_date, 
+       order_status, quantity, list_of_services, list_of_products) values
+       (cid, new_orderid, book_date, due, ostatus, qty, los, lop);
+      
+  RETURN(new_orderid);
+  END generate_orderid;
+  
+  function add_prod(custid products.customer_id%type,
+   listofprod products.list_of_products%type) return INTEGER is
+   begin
+   insert into products(customer_id,list_of_products) values(custid,listofprod);
+   return 1;
+   end add_prod;
+  
+   function serv(custid services.customer_id%type,
+   listofser services.list_of_services%type) return INTEGER  is
+   begin
+   insert into services(customer_id,list_of_services) values(custid,listofser);
+   return 1;
+   end serv;
+   
+   
+    function generate_requestid( src request_response_table.sourc%type,syn request_response_table.sync%type,
+   tobj request_response_table.thread_object%type,st request_response_table.status%type,orderid request_response_table.order_id%type)  RETURN INTEGER is
+   
+   new_requestid integer;
+   begin
+   new_requestid:= sequence_requestid.nextval;
+   insert into request_response_table (request_id, sourc,sync,thread_object,status,order_id) values (new_requestid, src, syn, tobj, st,orderid);
+   return new_requestid;
+   end generate_requestid;
+  
+   function generate_contractid(mtype ves.model_type%type,cid ves.customer_id%type,
+   serv_class ves.class_of_service%type,fdate ves.from_date%type,
+   tdate ves.to_date%type,disc ves.discount_percentage%type,chn ves.chang%type,curr number,max1 number) return INTEGER is
+     new_contractid integer;
+     begin
+     new_contractid:= sequence_contract_id.nextval;
+     insert into ves (model_type, customer_id, class_of_service, from_date, to_date, 
+     discount_percentage, contract_id, chang,cur,maxi) values (mtype, cid, serv_class, fdate, tdate, 
+     disc, new_contractid,chn,curr,max1);
+     return new_contractid;
+     end generate_contractid;
+      
+      function serv_prod(servid service_product.service_id%type,
+   listofprod service_product.list_of_products%type) return INTEGER is
+   begin
+   insert into service_product(service_id, list_of_products) values(servid, listofprod);
+   return 1;
+   end serv_prod;
+    
+  
+end insert_values;

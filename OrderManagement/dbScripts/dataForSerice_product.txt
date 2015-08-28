@@ -1,0 +1,142 @@
+insert all
+into service_product(service_id, list_of_products) 
+values('b2000','{"productcode":"e1040","productname":"phone"},{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"},{"productcode":"e1044","productname":"line"}]')
+select * from dual;
+
+insert all
+into service_product(service_id, list_of_products) 
+values('b2001','[{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"},{"productcode":"e1044","productname":"line"}]')
+into service_product(service_id, list_of_products) 
+values('b2002','[{"productcode":"e1040","productname":"phone"},{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"},{"productcode":"e1043","productname":"private line"}]')
+select * from dual;
+
+insert all
+into service_product(service_id, list_of_products) 
+values ('b2003','[{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"},{"productcode":"e1043","productname":"private line"}]')
+into service_product(service_id, list_of_products) 
+values ('b2004','[{"productcode":"e1043","productname":"private line"},{"productcode":"e1044","productname":"line"}]')
+into service_product(service_id, list_of_products)
+values ('b2005','[{"productcode":"e1043","productname":"private line"},{"productcode":"e1044","productname":"line"}]')
+select * from dual;
+
+
+insert all
+into service_product(service_id, list_of_products) 
+values('b2006','[{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"},{"productcode":"e1043","productname":"private line"},{"productcode":"e1044","productname":"line"}]')
+into service_product(service_id, list_of_products) 
+values('b2007','[{"productcode":"e1040","productname":"phone"},{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"},{"productcode":"e1043","productname":"private line"},{"productcode":"e1044","productname":"line"}]')
+into service_product(service_id, list_of_products) 
+values('b2008','[{"productcode":"e1050","productname":"iphone5"},{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values('b2009','[{"productcode":"e1051","productname":"iphone6"},{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values('b2010','[{"productcode":"e1051","productname":"iphone6"},{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+select * from dual;
+
+
+insert all
+into service_product(service_id, list_of_products) 
+values('b2011','[{"productcode":"e1052","productname":"Samsung galaxy 6"},{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}] ')
+into service_product(service_id, list_of_products) 
+values('b2012','[{"productcode":"e1052","productname":"Samsung galaxy 6"},{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values('b2013','[{"productcode":"e1050","productname":"iphone5"},{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values('b2014','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"},{"productcode":"e1048","productname":"router"},{"productcode":"e1049","productname":"telephone"}]')
+into service_product(service_id, list_of_products) 
+values('b2015',' [{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"},{"productcode":"e1048","productname":"router"},{"productcode":"e1049","productname":"telephone"}]')
+into service_product(service_id, list_of_products) 
+values('b2016',' [{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"},{"productcode":"e1048","productname":"router"}]')
+into service_product(service_id, list_of_products) 
+values('b2017','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"},{"productcode":"e1048","productname":"router"}]')
+into service_product(service_id, list_of_products) 
+values('b2018','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"},{"productcode":"e1048","productname":"router"}]')
+into service_product(service_id, list_of_products) 
+values('b2019','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"},{"productcode":"e1048","productname":"router"}]')
+into service_product(service_id, list_of_products) 
+values('b2020','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"},{"productcode":"e1048","productname":"router"}]')
+into service_product(service_id, list_of_products) 
+values('b2021','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"},{"productcode":"e1048","productname":"router"}]')
+select * from dual;
+
+
+insert all
+into service_product(service_id, list_of_products) 
+values ('p1000','[{"productcode":"e1044","productname":"line"}] ')
+into service_product(service_id, list_of_products) 
+values ('p1001','[{"productcode":"e1044","productname":"line"}]')
+into service_product(service_id, list_of_products) 
+values ('p1002','[{"productcode":"e1044","productname":"line"}]')
+into service_product(service_id, list_of_products) 
+values ('p1003','[{"productcode":"e1044","productname":"line"}]')
+into service_product(service_id, list_of_products) 
+values ('p1004','[{"productcode":"e1044","productname":"line"}]')
+select * from dual;
+
+
+insert all
+into service_product(service_id, list_of_products) 
+values ('p1005','[{"productcode":"e1040","productname":"phone"}]')
+into service_product(service_id, list_of_products) 
+values ('p1006',' [{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"}]')
+into service_product(service_id, list_of_products) 
+values ('p1007','[{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"}]')
+into service_product(service_id, list_of_products) 
+values ('p1008','[{"productcode":"e1040","productname":"phone"},{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"}]')
+into service_product(service_id, list_of_products) 
+values ('p1009','[{"productcode":"e1040","productname":"phone"},{"productcode":"e1041","productname":"camera"},{"productcode":"e1042","productname":"TV"}]')
+into service_product(service_id, list_of_products) 
+values ('p1010','[{"productcode":"e1043","productname":"private line"}]')
+into service_product(service_id, list_of_products) 
+values ('p1011','[{"productcode":"e1043","productname":"private line"}]')
+into service_product(service_id, list_of_products) 
+values ('p1012','[{"productcode":"e1043","productname":"private line"}]')
+into service_product(service_id, list_of_products) 
+values ('p1013','[{"productcode":"e1043","productname":"private line"}]')
+into service_product(service_id, list_of_products) 
+values ('p1014','[{"productcode":"e1043","productname":"private line"}]')
+select * from dual;
+
+
+insert all
+into service_product(service_id, list_of_products) 
+values ('p1015','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1016','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1017','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1018','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1019','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1020','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1021','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1022','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1023','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1024','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+into service_product(service_id, list_of_products) 
+values ('p1025','[{"productcode":"e1046","productname":"sim"},{"productcode":"e1047","productname":"plan"}]')
+select * from dual;
+
+
+insert all
+into service_product(service_id, list_of_products) 
+values('p1026','[{"productcode":"e1048","productname":"router"}]')
+into service_product(service_id, list_of_products) 
+values('p1027','[{"productcode":"e1048","productname":"router"}]')
+into service_product(service_id, list_of_products) 
+values('p1028','[{"productcode":"e1047","productname":"settop box"}]')
+into service_product(service_id, list_of_products) 
+values('p1033','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"}]')
+into service_product(service_id, list_of_products) 
+values('p1034','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"}]')
+into service_product(service_id, list_of_products) 
+values('p1035','[{"productcode":"e1048","productname":"remote"},{"productcode":"e1047","productname":"settop box"}]')
+into service_product(service_id, list_of_products) 
+values('p1036','[{"productcode":"e1049","productname":"telephone"}]')
+select * from dual;

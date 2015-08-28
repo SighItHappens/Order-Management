@@ -1,0 +1,19 @@
+create or replace PACKAGE PACKAGE_MDN AS
+
+ function create_mdn return mdn.mdn%type ;
+
+END PACKAGE_MDN;
+
+
+create or replace PACKAGE BODY PACKAGE_MDN iS
+
+  function create_mdn return mdn.mdn%type  iS
+  new_mdn mdn.mdn%type;
+  BEGIN
+    new_mdn:= sequence_mdn.nextval;
+    insert into mdn(mdn) values(new_mdn);
+    return new_mdn;
+
+  END create_mdn;
+
+END PACKAGE_MDN;

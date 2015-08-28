@@ -141,7 +141,13 @@ public class OrderWorkflow extends Thread {
 
 	private ArrayList<Long> generatemdn(String servicename) {
 		ArrayList<Long> mdn=new ArrayList<Long>();
-		int quant=0;
+		int quant=1;
+		if(servicename.equals("1gb per 2c") || servicename.equals("2gb per 2c")||servicename.equals("3gb per 2c")||servicename.equals("4 gb per2c"))
+			quant=2;
+		else if(servicename.equals("3 gb per3c")||servicename.equals("4 gb per3c")||servicename.equals("6 gb per3c"))
+			quant=3;
+		else if(servicename.equals("6 gb per 4c"))
+			quant=4;
 		DAOLookup.setcInfo("mdn");
 		DAOFactory df = DAOLookup.getDAOObject();
 		MDNBean mbean;
@@ -225,9 +231,5 @@ public class OrderWorkflow extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String args[]) {
-		OrderWorkflow od = new OrderWorkflow(null);
 	}
 }
