@@ -123,17 +123,13 @@ public class OrderWorkflow extends Thread {
 			provisioning.remove("contractdetails");
 			((JSONObject) provisioning.get("orderdetails")).put("products",
 					equips);
-			DAOLookup.setcInfo("mapping");
-			DAOFactory df = DAOLookup.getDAOObject();
 			JSONArray arr;
 			arr = ((JSONObject) provisioning.get("orderdetails"))
 					.getJSONArray("services");
-			JSONArray prods = new JSONArray();
-			JSONArray temp;
 			for (int i = 0; i < arr.length(); i++) {
 				if (listformdn.contains(arr.getJSONObject(i).getString(
 						"servicename"))) {
-					arr.getJSONObject(i).put("mdn", generatemdn(arr.getJSONObject(i).getString("servicename")));
+					arr.getJSONObject(i).put("mdn", new JSONArray(generatemdn(arr.getJSONObject(i).getString("servicename"))));
 				} else
 					arr.getJSONObject(i).put("mdn", "null");
 			}
@@ -143,11 +139,18 @@ public class OrderWorkflow extends Thread {
 		}
 	}
 
-	private long generatemdn(String servicename) {
+	private ArrayList<Long> generatemdn(String servicename) {
+		ArrayList<Long> mdn=new ArrayList<Long>();
+		int quant=0;
 		DAOLookup.setcInfo("mdn");
 		DAOFactory df = DAOLookup.getDAOObject();
-		MDNBean mbean = (MDNBean) df.view(0);
-		return mbean.getCurrentMdn();
+		MDNBean mbean;
+		for(int i=0;i<quant;i++)
+		{
+			mbean= (MDNBean) df.view(0);
+			mdn.add(mbean.getCurrentMdn());
+		}
+		return mdn;
 	}
 
 	private JSONArray getList() {
