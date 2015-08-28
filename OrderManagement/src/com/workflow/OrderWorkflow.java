@@ -28,10 +28,8 @@ public class OrderWorkflow extends Thread{
 	public OrderWorkflow(JSONObject order) {
 		persist=new Persisting();
 		provisioning=order;
-		//System.out.println(order);
 		String equiplist="[\"123\",\"124\"]";
 		try {
-			//provisioning=new JSONObject(json);
 			JSONArray equips=new JSONArray(equiplist);
 			if(((JSONObject)provisioning.get("customerdetails")).get("customertype").toString().equals("new"))
 			{
