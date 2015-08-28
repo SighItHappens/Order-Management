@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project name="MonitServ" default="all" basedir=".">
+	<property environment="env"/>
+	<property file="build.properties" />
+	
+	<target name="info">
+		<echo>Jenkins Demo  - Welcome to Apache Ant!</echo>
+	</target>
+	<target name="clean" description="Clean output directories">
+		<delete>
+			<fileset dir="${build.dir}">
+				<include name="**/*.class" />
+			</fileset>
+		</delete>
+	</target>
+
+
+	<target name="compile" description="Compile source tree java files">
+		<echo message="creating dir" />
+		<mkdir dir="${build.dir}" />
+		<echo message="finished " />
+		<javac destdir="${build.dir}">
+			<src path="${src.dir}" />
+			<classpath>
+				<fileset dir="${lib.dir}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${tomcat.classpath}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+
+	<target name="build-war">
+		<echo message="buildwar" />
+		<war destfile="${projectName}.war" webxml="${web.dir}/WEB-INF/web.xml">
+			<fileset dir="${web.dir}">
+				<include name="**/*.*" />
+			</fileset>
+
+			<lib dir="${lib.dir}">
+			</lib>
+
+			<classes dir="${build.dir}" />
+		</war>
+
+	</target>
+	<target name="deploy">
+		<copy file="${projectName}.war" tofile="${deploy.dir}/${projectName}.war" />
+	</target>
+
+	<!-- Default, run this -->
+	<target name="all" depends="clean, compile, build-war,deploy" />
+
+
+
+</project>
