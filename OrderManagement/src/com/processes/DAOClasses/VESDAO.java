@@ -15,6 +15,7 @@ import com.processes.BeanClasses.Bean;
 import com.processes.BeanClasses.VESBean;
 
 public class VESDAO implements VESDAOInf {
+	boolean successflag,successflag1,successflag2;
 
 	@Override
 	public VESBean displayByEmail(String str) {
@@ -25,7 +26,7 @@ public class VESDAO implements VESDAOInf {
 
 			VESBean vbean = new VESBean();
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("select * from ves where (select customer_id from customer_table where email_id='"
+			ResultSet rs = st.executeQuery("select * from ves where customer_id = (select customer_id from customer_table where email_id='"
 					+ str + "')");
 			while (rs.next()) {
 				vbean.setContractID(rs.getInt(7));
@@ -40,9 +41,11 @@ public class VESDAO implements VESDAOInf {
 				vbean.setMax(rs.getInt(10));
 			}
 			con.close();
+			successflag2=true;
 			return vbean;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
+			successflag2=false;
 			return null;
 		}
 	}
@@ -80,9 +83,11 @@ public class VESDAO implements VESDAOInf {
 				i++;
 			}
 			con.close();
+			successflag1=true;
 			return vbean;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
+			successflag1=false;
 			return null;
 		}
 	}
@@ -113,6 +118,7 @@ public class VESDAO implements VESDAOInf {
 			}
 
 			con.close();
+			
 			return vbean;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -143,9 +149,11 @@ public class VESDAO implements VESDAOInf {
 			stmt.setInt(10, ((VESBean) record).getMax());
 			stmt.execute();
 			int output = stmt.getInt(1);
+			successflag=true;
 			return output;
 		} catch (Exception e) {
 			e.printStackTrace();
+			successflag=false;
 			return 0;
 
 		}

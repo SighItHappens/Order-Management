@@ -16,6 +16,7 @@ import com.processes.BeanClasses.RequestResponseBean;
 
 public class RequestResponseDAO implements RequestResponseDAOInf {
 
+	boolean successflag;
 	public int viewByOrderAndSync(int orderID,String sync)
 	{
 		int responseID = -1;
@@ -34,9 +35,11 @@ public class RequestResponseDAO implements RequestResponseDAOInf {
 			responseID = rs.getInt(1);
 		}
 		con.close();
+		successflag = true;
 		return responseID;
 	} catch (ClassNotFoundException | SQLException e) {
 		e.printStackTrace();
+		successflag = false;
 		return responseID;
 	}
 
@@ -101,10 +104,12 @@ public class RequestResponseDAO implements RequestResponseDAOInf {
 			
 			stmt.execute();
 			int output = stmt.getInt(1);
+			successflag = true;
 
 			return output;
 		} catch (Exception e) {
 			e.printStackTrace();
+			successflag = false;
 			return -1;
 		}
 

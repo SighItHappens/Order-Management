@@ -16,6 +16,7 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,14 +42,14 @@ public class BusinessLogic {
 			JSONObject result = new JSONObject();
 			int count = st.countTokens();
 			System.out.println(count);
-			int[] array = new int[count];
+			String[] array = new String[count];
 			int i = 0;
 			while (i < count) {
-				array[i] = Integer.parseInt((String) st.nextElement());
+				array[i] = (String) st.nextElement();
 				i++;
 			}
-			result.put("customerID", array);
-			result.put("count", count);
+			result.put("accountNo", array);
+			result.put("totalNumOfAcc", new Integer(count).toString());
 		
 		System.out.println(result);
 		return result.toString();

@@ -21,6 +21,8 @@ public class FinanceWorkflow extends Thread{
 	public boolean flag;
 	public FinanceWorkflow(int suspend_resume,int customerid){
 		persist=new Persisting();
+		this.suspend_resume=suspend_resume;
+		this.customerid=customerid;
 		flag=true;
 		this.start();	
 	}
@@ -32,48 +34,50 @@ public class FinanceWorkflow extends Thread{
 		String api = "http://localhost:8086/TestRestServ/rest/om/billingAccountPull/ves";//update string
 		int responseCode = 0;	
 		JSONObject response=null;
-		URL url;
-		try {
-			url = new URL(api);
-			HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
-			httpConnection.connect();
-			responseCode = httpConnection.getResponseCode();
-		if (responseCode == 200) {
-			BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-			String str = "";
-			StringBuilder responseJson = new StringBuilder();
-			while ((str = br.readLine()) != null) {
-				responseJson.append(str);
-			}
-			response=new JSONObject(new String(responseJson));
-		}
-		else{
-			flag=false;
-		}
-		if(response.getString("provisioningstatus").equals("suspended"))
-		{
+//		URL url;
+//		try {
+//			url = new URL(api);
+//			HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+//			httpConnection.connect();
+//			responseCode = httpConnection.getResponseCode();
+//		if (responseCode == 200) {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+//			String str = "";
+//			StringBuilder responseJson = new StringBuilder();
+//			while ((str = br.readLine()) != null) {
+//				responseJson.append(str);
+//			}
+//			response=new JSONObject(new String(responseJson));
+//		}
+//		else{
+//			flag=false;
+//		}
+		//if(response.getString("provisioningstatus").equals("suspended"))
+		System.out.println("In finance"+suspend_resume+" "+customerid);
+		if(suspend_resume==0){
 			DAOLookup.setcInfo("request");
 			DAOFactory df=DAOLookup.getDAOObject();
 			df.update("status","complete",requestid);
 			DAOLookup.setcInfo("customer");
 			DAOFactory df2=DAOLookup.getDAOObject();
-			df.update("customer_status","suspended",customerid);
+			df2.update("customer_status","suspended",customerid);
 		}else
-			if(response.getString("provisioningstatus").equals("resumed")){
-				DAOLookup.setcInfo("request");
+			//if(response.getString("provisioningstatus").equals("resumed")){
+			if(suspend_resume==1){	
+			DAOLookup.setcInfo("request");
 				DAOFactory df=DAOLookup.getDAOObject();
 				df.update("status","complete",requestid);
 				DAOLookup.setcInfo("customer");
 				DAOFactory df2=DAOLookup.getDAOObject();
-				df.update("customer_status","resumed",customerid);
+				df2.update("customer_status","active",customerid);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			flag=false;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			flag=false;
-		}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			flag=false;
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//			flag=false;
+//		}
 	}
 
 }

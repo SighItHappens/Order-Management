@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import javax.ws.rs.core.MediaType;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,12 +20,14 @@ import com.customers.DAOFactory;
 import com.customers.DAOLookup;
 import com.processes.BeanClasses.MDNBean;
 import com.processes.BeanClasses.MappingBean;
+import com.processes.DAOClasses.MappingDAO;
 
 public class OrderWorkflow extends Thread {
 	JSONObject provisioning;
 	int custid, orderid, contractid;
 	String equiplist = null;
 	Persisting persist;
+	public JSONObject response;
 	String arr1[] = { "1gb per 2c", "2gb per 2c", "3gb per 2c", "3 gb per3c",
 			"4 gb per2c", "4 gb per3c", "6 gb per3c", "6 gb per 4c",
 			"1gb per 30$", "3gb per45$", "6gbper60$", "iphone 5_1gb_30$",
@@ -33,9 +37,11 @@ public class OrderWorkflow extends Thread {
 	public boolean flag;
 	
 	public OrderWorkflow(JSONObject order) {
+		System.out.println(order);
 		flag=true;
 		persist = new Persisting();
 		provisioning = order;
+		response = new JSONObject();
 		try {
 			JSONArray equips = null;
 			if (((JSONObject) provisioning.get("customerdetails"))
@@ -46,13 +52,13 @@ public class OrderWorkflow extends Thread {
 				if (provisioning.get("lineofbusiness").toString().equals("ves"))
 					contractid = persist.persistContract(custid, provisioning);
 				orderid = persist.persistOrder(custid, equips, provisioning);
+				System.out.println(orderid+"inworkflow"+contractid);
 			} else if (((JSONObject) provisioning.get("customerdetails"))
 					.get("customertype").toString().equals("registered")
 					&& provisioning.getJSONArray("contractdetails")
 							.getJSONObject(0).getString("change")
 							.equals("null")) {
-				System.out.println("in customer");
-				custid = persist.persistCustomer(provisioning);
+				custid =provisioning.getInt("customerid");
 				equips = getList();
 				if (provisioning.get("lineofbusiness").toString().equals("ves"))
 					contractid = persist.persistContract(custid, provisioning);
@@ -128,11 +134,15 @@ public class OrderWorkflow extends Thread {
 					.getJSONArray("services");
 			for (int i = 0; i < arr.length(); i++) {
 				if (listformdn.contains(arr.getJSONObject(i).getString(
-						"servicename"))) {
+						"servicename").toLowerCase())) {
 					arr.getJSONObject(i).put("mdn", new JSONArray(generatemdn(arr.getJSONObject(i).getString("servicename"))));
 				} else
 					arr.getJSONObject(i).put("mdn", "null");
 			}
+			response.put("customerid", custid);
+			response.put("orderid", orderid);
+			if(provisioning.getString("lineofbusiness").equals("ves"))
+				response.put("contractid", contractid);
 			this.start();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -169,8 +179,10 @@ public class OrderWorkflow extends Thread {
 			JSONArray prods = new JSONArray();
 			JSONArray temp;
 			for (int i = 0; i < arr.length(); i++) {
-				MappingBean mbean = (MappingBean) df.view(((JSONObject) arr
-						.get(i)).getInt("servicecode"));
+				System.out.println(((JSONObject) arr
+						.get(i)).getString("servicecode"));
+				MappingBean mbean = (MappingBean)((MappingDAO) df).view1(((JSONObject) arr
+						.get(i)).getString("servicecode").toLowerCase());
 				String prodlist = mbean.getListOfProducts();
 				temp = new JSONArray(prodlist);
 				prods = concatenate(prods, temp);
@@ -196,13 +208,13 @@ public class OrderWorkflow extends Thread {
 
 	@Override
 	public void run() {
-		String output;
+		String output="";
 		DAOLookup.setcInfo("order");
 		DAOFactory df = DAOLookup.getDAOObject();
 		df.update("order_status", "in_provision", orderid);
 		int requestId = persist.persistRequest(this.currentThread().getId(),
 				orderid, "ordering", "prov", "in prov");
-		String urlStr = "http://localhost:8080/TestRestServ/rest/om/placeOrder";
+		String urlStr = "http://192.168.1.65:7562/ProvisionPorts/rest/prov/acceptRequest";
 		URL urlToRequest;
 		try {
 			urlToRequest = new URL(urlStr);
@@ -211,25 +223,29 @@ public class OrderWorkflow extends Thread {
 			httpConnection.setDoOutput(true);
 			httpConnection.setRequestMethod("POST");
 			httpConnection.setRequestProperty("Content-Type",
-					"application/json");
+					MediaType.TEXT_PLAIN);
 			OutputStream outputStream = httpConnection.getOutputStream();
 			outputStream.write(provisioning.toString().getBytes());
 			outputStream.flush();
 
-			if (httpConnection.getResponseCode() != 201) {
+			if (httpConnection.getResponseCode() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ httpConnection.getResponseCode());
 			}
-			df.update("order_status", "out_provision", orderid);
 			BufferedReader responseBuffer = new BufferedReader(
 					new InputStreamReader((httpConnection.getInputStream())));
-
+			System.out.println("OUTPUT: ");
 			while ((output = responseBuffer.readLine()) != null) {
 				System.out.println(output);
 			}
 			httpConnection.disconnect();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		if(output.equals("true"))
+		{
+			System.out.println("provisioning accepted");
+			df.update("order_status", "out_provision", orderid);
 		}
 	}
 }

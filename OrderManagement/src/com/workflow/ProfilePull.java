@@ -56,11 +56,16 @@ public class ProfilePull {
 			custdetails.put("fname", cbean.getFirstName());
 			custdetails.put("lname", cbean.getLastName());
 			custdetails.put("customerstatus", cbean.getCustomerStatus());
+			System.out.println(custdetails);
 			custdetails.put("billstartdate", cbean.getBillStartDate());
+			System.out.println(custdetails);
 			custdetails.put("connectionaddress", new JSONObject(cbean.getConnectionAddress()));
 			custdetails.put("billingaddress", new JSONObject(cbean.getBillingAddress()));
 			custdetails.put("email", cbean.getEmailId());
-			custdetails.put("contactnumber", cbean.getContactNumber());
+			custdetails.put("contactnumber", Long.parseLong(cbean.getContactNumber()));
+			if(cbean.getLineOfBusiness().equals("ves"))
+				custdetails.put("dateofbirth", "null");
+			else
 			custdetails.put("dateofbirth", cbean.getDateOfBirth());
 			profile.put("customerdetails", custdetails);
 			//System.out.println(sbean + " " + pbean);

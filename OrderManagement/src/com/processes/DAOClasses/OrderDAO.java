@@ -15,6 +15,8 @@ import com.processes.BeanClasses.Bean;
 import com.processes.BeanClasses.OrderBean;
 
 public class OrderDAO implements OrderDAOInf {
+	
+	boolean successflag;
 	public OrderBean view(int id) {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -79,14 +81,18 @@ public class OrderDAO implements OrderDAOInf {
 				i++;
 			}
 			con.close();
-
+			successflag = true;
 			return obean;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+
+			successflag = false;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			successflag = false;
 		} catch (Exception e) {
 			e.printStackTrace();
+			successflag = false;
 		}
 		return null;
 	}
@@ -112,9 +118,12 @@ public class OrderDAO implements OrderDAOInf {
 			stmt.setString(8, ((OrderBean) record).getListOfProducts());
 			stmt.execute();
 			int output = stmt.getInt(1);
+			successflag = true;
 			return output;
 		} catch (Exception e) {
 			e.printStackTrace();
+
+			successflag = false;
 			return 0;
 		}
 
@@ -124,7 +133,7 @@ public class OrderDAO implements OrderDAOInf {
 	@Override
 	public int update(String name,String value,int id) {
 		try {
-			System.out.println("in order dao");
+			System.out.println("in order dao"+name+" "+value+" "+id);
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(

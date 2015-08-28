@@ -14,7 +14,7 @@ import com.processes.BeanClasses.Bean;
 import com.processes.BeanClasses.MDNBean;
 
 public class MdnDAO implements DAOFactory{
-
+	boolean successflag;
 	@Override
 	public int update(String name, String value, int id) {
 		return 0;
@@ -46,13 +46,17 @@ public class MdnDAO implements DAOFactory{
 			stmt.execute();
 			mdnbean=new MDNBean();
 			mdnbean.setCurrentMdn(stmt.getInt(1));
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			successflag=false;
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			successflag=false;
 		}
+		successflag=true;
 		return mdnbean;
 	}
 

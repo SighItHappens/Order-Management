@@ -15,6 +15,8 @@ import com.processes.BeanClasses.Bean;
 import com.processes.BeanClasses.CustomerBean;
 
 public class CustomerDAO implements CustomerDAOInf {
+	boolean successflag,successflag1;
+	
 
 	@Override
 	public CustomerBean viewByEmail(String str) {
@@ -114,10 +116,11 @@ public class CustomerDAO implements CustomerDAOInf {
 
 			stmt.execute();
 			int output = stmt.getInt(1);
-
+			successflag=true;
 			return output;
 		} catch (Exception e) {
 			e.printStackTrace();
+			successflag=false;
 			return 0;
 		}
 	}
@@ -144,10 +147,13 @@ public class CustomerDAO implements CustomerDAOInf {
 			}
 
 			con.close();
+			successflag1=true;
 			return customerids;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			successflag1=false;
 		} catch (SQLException e) {
+			successflag1=false;
 			e.printStackTrace();
 		}
 		return null;

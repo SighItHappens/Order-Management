@@ -15,10 +15,10 @@ import com.processes.BeanClasses.Bean;
 import com.processes.BeanClasses.MappingBean;
 
 public class MappingDAO implements MappingDAOInf {
-
-	public MappingBean view(int id) {
+	boolean successflag,successflag1;
+	public MappingBean view1(String id) {
 		MappingBean mbean = new MappingBean();
-
+		System.out.println("Mappind DAO: "+ id);
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
@@ -26,15 +26,17 @@ public class MappingDAO implements MappingDAOInf {
 					"password");
 			Statement st = con.createStatement();
 			ResultSet rs = st
-					.executeQuery("select * from service_product where service_id="
-							+ id);
+					.executeQuery("select * from service_product where service_id='"
+							+ id+"'");
 			while (rs.next()) {
-				mbean.setServiceID(rs.getInt(1));
+				mbean.setServiceID(rs.getString(1));
 				mbean.setListOfProducts(rs.getString(2));
 			}
 			con.close();
+			successflag=true;
 			return mbean;
 		} catch (ClassNotFoundException | SQLException e) {
+			successflag=true;
 			e.printStackTrace();
 			return null;
 		}
@@ -54,7 +56,7 @@ public class MappingDAO implements MappingDAOInf {
 					.prepareCall("{? = call verizon.insert_values.serv_prod(?,?)}");
 			System.out.println("connected2");
 			stmt.registerOutParameter(1, Types.INTEGER);
-			stmt.setInt(2, ((MappingBean) record).getServiceID());
+			stmt.setString(2, ((MappingBean) record).getServiceID());
 			stmt.setString(3, ((MappingBean) record).getListOfProducts());
 
 			System.out.println();
@@ -68,6 +70,7 @@ public class MappingDAO implements MappingDAOInf {
 			return output;
 		} catch (Exception e) {
 			e.printStackTrace();
+			successflag=false;
 			return 0;
 		}
 		// TODO Auto-generated method stub
@@ -84,19 +87,46 @@ public class MappingDAO implements MappingDAOInf {
 					"password");
 
 			PreparedStatement ps = con
-					.prepareStatement("update sevice_product set " + name
+					.prepareStatement("update service_product set " + name
 							+ "=? where service_id=?");
 			ps.setString(1, value);
 			ps.setInt(2, id);
 			int i = ps.executeUpdate();
+			successflag=true;
 			return i;
 		} catch (Exception e) {
 			e.printStackTrace();
+			successflag=true;
 			return 0;
 		}
 
 	}
 
+	public int update1(String name, String value, String id) {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+
+			Connection con = DriverManager.getConnection(
+					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"password");
+
+			PreparedStatement ps = con
+					.prepareStatement("update service_product set " + name
+							+ "=? where service_id=?");
+			ps.setString(1, value);
+			ps.setString(2, id);
+			int i = ps.executeUpdate();
+			successflag=true;
+			return i;
+		} catch (Exception e) {
+			e.printStackTrace();
+			successflag=true;
+			return 0;
+		}
+
+	}
+
+	
 	@Override
 	public int update(String name, int value, int id) {
 		try {
@@ -139,6 +169,12 @@ public class MappingDAO implements MappingDAOInf {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+
+	@Override
+	public Bean view(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

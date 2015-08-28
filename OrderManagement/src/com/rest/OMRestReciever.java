@@ -112,12 +112,13 @@ public class OMRestReciever {
 	public Response submitOrder(String product) {
 		JSONObject jobj = null;
 		try {
+			System.out.println("Inside Submit order: "+product);
 			jobj = new JSONObject(product);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		OrderWorkflow ord = new OrderWorkflow(jobj);
-		return Response.status(201).entity("true").build();
+		return Response.status(201).entity(ord.response.toString()).build();
 	}
 
 	String str, str1;
@@ -136,7 +137,12 @@ public class OMRestReciever {
 	public String sendProfile(
 			@DefaultValue("null") @QueryParam("accno") String accno) {
 		ProfilePull pf = new ProfilePull();
-		String result = pf.profilePullById(Integer.parseInt(accno));
+		String result=null;
+		try{
+		result = pf.profilePullById(Integer.parseInt(accno));
+		}catch(Exception E){
+			return "null";
+		}
 		return result;
 	}
 

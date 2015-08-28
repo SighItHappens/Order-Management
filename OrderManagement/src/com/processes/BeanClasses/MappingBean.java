@@ -2,13 +2,13 @@ package com.processes.BeanClasses;
 
 public class MappingBean extends Bean {
 	
-	int serviceID;
+	String serviceID;
 	String listOfProducts;
 	
-	public int getServiceID() {
+	public String getServiceID() {
 		return serviceID;
 	}
-	public void setServiceID(int serviceID) {
+	public void setServiceID(String serviceID) {
 		this.serviceID = serviceID;
 	}
 	public String getListOfProducts() {

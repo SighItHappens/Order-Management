@@ -29,39 +29,40 @@ public class CancelOrderWorkflow extends Thread{
 		String api = "http://localhost:8086/TestRestServ/rest/om/billingAccountPull/ves";//updatestring
 		int responseCode = 0;	
 		JSONObject response=null;
-		URL url;
-		try {
-			url = new URL(api);
-			HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
-			httpConnection.connect();
-			responseCode = httpConnection.getResponseCode();
-		if (responseCode == 200) {
-			BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-			String str = "";
-			StringBuilder responseJson = new StringBuilder();
-			while ((str = br.readLine()) != null) {
-				responseJson.append(str);
-			}
-			response=new JSONObject(new String(responseJson));
-		}
-		else{
-			flag=false;
-		}
-		if(response.getString("provisioningstatus").equals("cancelled"))
+//		URL url;
+//		try {
+//			url = new URL(api);
+//			HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+//			httpConnection.connect();
+//			responseCode = httpConnection.getResponseCode();
+//		if (responseCode == 200) {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+//			String str = "";
+//			StringBuilder responseJson = new StringBuilder();
+//			while ((str = br.readLine()) != null) {
+//				responseJson.append(str);
+//			}
+//			response=new JSONObject(new String(responseJson));
+//		}
+//		else{
+//			flag=false;
+//		}
+		//if(response.getString("provisioningstatus").equals("cancelled"))
+		if(true)
 		{
 			DAOLookup.setcInfo("request");
 			DAOFactory df=DAOLookup.getDAOObject();
 			df.update("status","complete",requestid);
 			DAOLookup.setcInfo("order");
 			DAOFactory df2=DAOLookup.getDAOObject();
-			df.update("order_status","cancelled",orderid);
+			df2.update("order_status","cancelled",orderid);
 		}
-		} catch (IOException e) {
-			e.printStackTrace();
-			flag=false;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			flag=false;
-		}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			flag=false;
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//			flag=false;
+//		}
 	}
 }

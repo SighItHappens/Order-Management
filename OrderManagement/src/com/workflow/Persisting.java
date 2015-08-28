@@ -39,6 +39,8 @@ public class Persisting {
 					.get("email"));
 			cbean.setContactNumber(((JSONObject) provisioning.get("customerdetails")).get("contactnumber").toString());
 
+			if(!cbean.getLineOfBusiness().equals("ves"))
+			{
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 			java.util.Date utilDate = formatter
 					.parse((String) ((JSONObject) provisioning.get("customerdetails"))
@@ -46,6 +48,9 @@ public class Persisting {
 
 			Date date = new java.sql.Date(utilDate.getTime());
 			cbean.setDateOfBirth(date);
+			}
+			else
+				cbean.setDateOfBirth(null);
 			cbean.setBillStartDate(null);
 			cbean.setCustomerStatus("active");
 		System.out.println(provisioning.get("lineofbusiness").toString()+"Customer added");
@@ -92,8 +97,7 @@ public class Persisting {
 		}
 		DAOLookup.setcInfo("order");
 		DAOFactory df=DAOLookup.getDAOObject();
-		df.add(obean);
-		return 0;
+		return df.add(obean);
 	}
 	protected int persistContract(int custid, JSONObject provisioning)
 	{
@@ -118,12 +122,12 @@ public class Persisting {
 		}
 		DAOLookup.setcInfo("ves");
 		DAOFactory df=DAOLookup.getDAOObject();
-		df.add(vbean);
-		return 0;
+		return df.add(vbean);
 	}
 	protected boolean persistServices(int custid,String prov)
 	{
 		JSONObject provisioned=null;
+		boolean flag=true;
 		try {
 			provisioned = new JSONObject(prov);
 		} catch (JSONException e1) {
@@ -132,6 +136,8 @@ public class Persisting {
 		DAOLookup.setcInfo("service");
 		DAOFactory df=DAOLookup.getDAOObject();
 		ServiceBean sb=(ServiceBean) df.view(custid);
+		if(sb==null)
+			flag=false;
 		ServiceBean sbean=new ServiceBean();
 		try {
 		JSONArray newlist=concatenate(provisioned.getJSONArray("listofservices"),new JSONArray(sb.getListOfServices()));
@@ -141,12 +147,17 @@ public class Persisting {
 			e.printStackTrace();
 			return false;
 		}
-		df.add(sbean);
+		if(!flag){
+			df.add(sbean);
+		}
+		else
+			df.update("list_of_services",sbean.getListOfServices(),custid);
 		return true;
 	}
 	protected boolean persistProducts(int custid,String prov)
 	{
 		JSONObject provisioned=null;
+		boolean flag=true;
 		try {
 			provisioned = new JSONObject(prov);
 		} catch (JSONException e1) {
@@ -157,13 +168,19 @@ public class Persisting {
 		DAOLookup.setcInfo("product");
 		DAOFactory df=DAOLookup.getDAOObject();
 		ProductBean sb=(ProductBean) df.view(custid);
+		if(sb==null)
+			flag=false;
 		try {
 		JSONArray newlist=concatenate(provisioned.getJSONArray("listofproducts"),new JSONArray(sb.getListOfProducts()));
 			pbean.setListOfProducts(newlist.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		df.add(pbean);
+		if(!flag){
+			df.add(pbean);
+		}
+		else
+			df.update("list_of_products",pbean.getListOfProducts(),custid);
 		return true;
 	}
 	protected int persistRequest(long threadId,int orderid,String source,String sink,String status){
