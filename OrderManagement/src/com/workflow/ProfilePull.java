@@ -127,4 +127,45 @@ public class ProfilePull {
 		}
 		return profile.toString();
 	}
+	public String orderPull(int orderid){
+		DAOLookup.setcInfo("order");
+		DAOFactory df5 = DAOLookup.getDAOObject();
+		OrderBean b=(OrderBean) df5.view(orderid);
+		if(b.getOrderID()==0)
+			return "null";
+		JSONObject temp = new JSONObject();
+		try {
+			temp.put("orderid", b.getOrderID());
+			temp.put("dateoforder", b.getDateOfBooking());
+			temp.put("duedate", b.getDueDate());
+			temp.put("orderstatus", b.getOrderStatus());
+			temp.put("services", new JSONArray(b.getListOfServices()));
+			temp.put("products", new JSONArray(b.getListOfProducts()));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return temp.toString();
+	}
+	public String contractPull(int contractid){
+		DAOLookup.setcInfo("ves");
+		DAOFactory df5 = DAOLookup.getDAOObject();
+		VESBean b=(VESBean) df5.view(contractid);
+		if(b.getContractID()==0)
+			return "null";
+		JSONObject temp = new JSONObject();
+		try {
+			temp.put("contractid", b.getContractID());
+			temp.put("modeltype", b.getModelType());
+			temp.put("classofservice", b.getClassOfService());
+			temp.put("fromdate", b.getFromDate().toString());
+			temp.put("todate", b.getToDate().toString());
+			temp.put("current", b.getCurrent());
+			temp.put("max", b.getMax());
+			temp.put("discountpercentage", b.getDiscountPercentage());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp.toString();
+	}
 }

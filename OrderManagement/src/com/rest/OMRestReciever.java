@@ -13,8 +13,6 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.profilepull.bean_json;
-import com.profilepull.jdbc_new;
 import com.workflow.CancelOrderWorkflow;
 import com.workflow.ChangeDuedateWorkflow;
 import com.workflow.FinanceWorkflow;
@@ -112,7 +110,6 @@ public class OMRestReciever {
 	// cheching
 	@POST
 	@Path("/submitorder")
-	// @Consumes("application/json")
 	public Response submitOrder(String product) {
 		System.out.println(product);
 		JSONObject jobj = null;
@@ -129,32 +126,25 @@ public class OMRestReciever {
 	String str, str1;
 
 	@GET
-	@Path("profilePull/{id}")
-	public String getOrder(@PathParam("id") String id) throws JSONException {
-		// // JSONObject obj = new JSONObject(id);
-		// JSONObject obj1 = new JSONObject();
-		//
-		// // str1 = (String) obj.get("cust_id");
-		// obj1=data(id);
-		// if(obj1!=null)
-		// str = obj1.toString();
-		// else str= "null";
-		//
-		// return str;
+	@Path("/profilePull/{id}")
+	public String profilePull(@PathParam("id") String id) throws JSONException {
 		ProfilePull pf = new ProfilePull();
 		String result = pf.profilePullById(Integer.parseInt(id));
 		return result;
 	}
+	
+	@GET
+	@Path("/profile")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String sendProfile(@DefaultValue("null")@QueryParam("accno") String accno){
+		ProfilePull pf = new ProfilePull();
+		String result = pf.profilePullById(Integer.parseInt(accno));
+		return result;
+	} 
 
-	public JSONObject data(String str1) throws JSONException {
-		jdbc_new jb = new jdbc_new();
-		bean_json b2j = new bean_json();
-		return b2j.bean2json(jdbc_new.select(str1));
-
-	}
 
 	@GET
-	@Path("profilePull/email/{email}")
+	@Path("/profilePull/email/{email}")
 	public String getOrder1(@PathParam("email") String email)
 			throws JSONException {
 		ProfilePull pf = new ProfilePull();
@@ -163,63 +153,23 @@ public class OMRestReciever {
 
 	}
 
-	public JSONObject data1(String str1) throws JSONException {
-		jdbc_new jb = new jdbc_new();
-		bean_json b2j = new bean_json();
-
-		return b2j.bean2json(jb.select_email(str1));
-
-	}
-
 	@GET
 	@Path("/order/{order_id}")
 	public String getOrder_or(@PathParam("order_id") String order_id)
 			throws JSONException {
-		// JSONObject obj = new JSONObject(email);
-		JSONObject obj1 = new JSONObject();
-
-		// str1 = (String) obj.get("email_id");
-		obj1 = data_or(order_id);
-		if (obj1 != null)
-			str = obj1.toString();
-		else
-			str = "null";
-
-		return str;
+		ProfilePull pf = new ProfilePull();
+		String result=pf.orderPull(Integer.parseInt(order_id));
+		return result;
 	}
 
-	public JSONObject data_or(String str1) {
-		jdbc_new jb = new jdbc_new();
-		bean_json b2j = new bean_json();
-
-		return b2j.bean2json_or(jb.select_or(str1));
-
-	}
 
 	@GET
 	@Path("/contract/{contract_id}")
 	public String getOrder_con(@PathParam("contract_id") String contract_id)
 			throws JSONException {
-		// JSONObject obj = new JSONObject(email);
-		JSONObject obj1 = new JSONObject();
-
-		// str1 = (String) obj.get("email_id");
-		obj1 = data_con(contract_id);
-
-		if (obj1 != null)
-			str = obj1.toString();
-		else
-			str = "null";
-
-		return str;
-
-	}
-
-	public JSONObject data_con(String str1) {
-		jdbc_new jb = new jdbc_new();
-		bean_json b2j = new bean_json();
-
-		return b2j.bean2json_ves(jb.select_con(str1));
+		ProfilePull pf = new ProfilePull();
+		String result=pf.contractPull(Integer.parseInt(contract_id));
+		return result;
 
 	}
 

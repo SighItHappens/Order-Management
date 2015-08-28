@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import com.customers.DAOFactory;
 import com.customers.DAOLookup;
+import com.processes.BeanClasses.MDNBean;
 import com.processes.BeanClasses.MappingBean;
 
 public class OrderWorkflow extends Thread{
@@ -28,14 +29,13 @@ public class OrderWorkflow extends Thread{
 	public OrderWorkflow(JSONObject order) {
 		persist=new Persisting();
 		provisioning=order;
-		String equiplist="[\"123\",\"124\"]";
 		try {
-			JSONArray equips=new JSONArray(equiplist);
+			JSONArray equips=null;
 			if(((JSONObject)provisioning.get("customerdetails")).get("customertype").toString().equals("new"))
 			{
 				custid=persist.persistCustomer(provisioning);
 				System.out.println("Customer id"+custid);
-				//equips=getList();
+				equips=getList();
 				if(provisioning.get("lineofbusiness").toString().equals("ves"))
 					contractid=persist.persistContract(custid,provisioning);
 				orderid=persist.persistOrder(custid,equips,provisioning);
@@ -44,7 +44,7 @@ public class OrderWorkflow extends Thread{
 			{
 				System.out.println("in customer");
 				custid=persist.persistCustomer(provisioning);
-				//equips=getList();
+				equips=getList();
 				if(provisioning.get("lineofbusiness").toString().equals("ves"))
 					contractid=persist.persistContract(custid,provisioning);
 				orderid=persist.persistOrder(custid,equips,provisioning);
@@ -96,7 +96,6 @@ public class OrderWorkflow extends Thread{
 			((JSONObject)provisioning.get("customerdetails")).remove("dateofbirth");
 			provisioning.remove("contractdetails");
 			((JSONObject)provisioning.get("orderdetails")).put("products", equips);
-			System.out.println(provisioning);
 			DAOLookup.setcInfo("mapping");
 			DAOFactory df=DAOLookup.getDAOObject();
 			JSONArray arr;
@@ -116,10 +115,12 @@ public class OrderWorkflow extends Thread{
 			e.printStackTrace();
 		}
 	}
-	private int generatemdn()
+	private long generatemdn()
 	{
-		
-		return 0;
+		DAOLookup.setcInfo("mdn");
+		DAOFactory df=DAOLookup.getDAOObject();
+		MDNBean mbean=(MDNBean) df.view(0);
+		return mbean.getCurrentMdn();
 	}
 	private JSONArray getList(){
 		DAOLookup.setcInfo("mapping");
