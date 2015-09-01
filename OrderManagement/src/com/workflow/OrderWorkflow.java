@@ -1,14 +1,13 @@
 package com.workflow;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 
 import javax.ws.rs.core.MediaType;
 
@@ -20,6 +19,7 @@ import com.customers.DAOFactory;
 import com.customers.DAOLookup;
 import com.processes.BeanClasses.MDNBean;
 import com.processes.BeanClasses.MappingBean;
+import com.processes.BeanClasses.VESBean;
 import com.processes.DAOClasses.MappingDAO;
 
 public class OrderWorkflow extends Thread {
@@ -68,7 +68,10 @@ public class OrderWorkflow extends Thread {
 					&& !(provisioning.getJSONArray("contractdetails")
 							.getJSONObject(0).getString("change")
 							.equals("null"))){
-				
+				DAOLookup.setcInfo("ves");
+				DAOFactory df=DAOLookup.getDAOObject();
+				VESBean vbean=(VESBean) df.view(provisioning.getJSONObject("contractdetails").getInt("contractid"));
+				vbean.setCurrent(vbean.getCurrent()+Integer.parseInt(provisioning.getJSONObject("contractdetails").getString("change")));
 			} else
 				flag=false;
 			if (provisioning.get("lineofbusiness").toString().equals("cmb")) {
