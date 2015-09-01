@@ -21,7 +21,7 @@ public class OrderDAO implements OrderDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			OrderBean obean = new OrderBean();
@@ -52,7 +52,7 @@ public class OrderDAO implements OrderDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 			Statement st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
@@ -104,7 +104,7 @@ public class OrderDAO implements OrderDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 			stmt = con
 					.prepareCall("{? = call verizon.insert_values.generate_orderid(?,?,?,?,?,?,?)}");
@@ -137,7 +137,7 @@ public class OrderDAO implements OrderDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update order_table set "+name+"=? where order_id=?");
@@ -160,7 +160,7 @@ public class OrderDAO implements OrderDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update order_table set "+name+"=? where order_id=?");
@@ -182,7 +182,7 @@ public class OrderDAO implements OrderDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update order_table set "+name+"=? where order_id=?");

@@ -22,7 +22,7 @@ public class MappingDAO implements MappingDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 			Statement st = con.createStatement();
 			ResultSet rs = st
@@ -49,7 +49,7 @@ public class MappingDAO implements MappingDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 			System.out.println("connected1");
 			stmt = con
@@ -83,7 +83,7 @@ public class MappingDAO implements MappingDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con
@@ -107,7 +107,7 @@ public class MappingDAO implements MappingDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con
@@ -133,7 +133,7 @@ public class MappingDAO implements MappingDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con
@@ -155,7 +155,7 @@ public class MappingDAO implements MappingDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con

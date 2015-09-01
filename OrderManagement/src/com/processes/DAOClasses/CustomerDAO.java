@@ -26,7 +26,7 @@ public class CustomerDAO implements CustomerDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			Statement st = con.createStatement();
@@ -62,7 +62,7 @@ public class CustomerDAO implements CustomerDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			Statement st = con.createStatement();
@@ -97,7 +97,7 @@ public class CustomerDAO implements CustomerDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 			stmt = con
 					.prepareCall("{? = call verizon.insert_values.generate_custid(?,?,?,?,?,?,?,?,?,?)}");
@@ -130,7 +130,7 @@ public class CustomerDAO implements CustomerDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 
 			PreparedStatement st = con.prepareStatement("select customer_id from customer_table where bill_start_date=? and line_of_business='"
 							+ Portfolio + "'");
@@ -165,7 +165,7 @@ public class CustomerDAO implements CustomerDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 		PreparedStatement ps = con.prepareStatement("update customer_table set "+name+"=? where customer_id=?");
@@ -188,7 +188,7 @@ public class CustomerDAO implements CustomerDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update customer_table set "+name+"=? where customer_id=?");
@@ -210,7 +210,7 @@ public class CustomerDAO implements CustomerDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update customer_table set "+name+"=? where customer_id=?");

@@ -22,7 +22,7 @@ public class ProductDAO implements ProductDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 
 			ProductBean pbean = new ProductBean();
 			Statement st = con.createStatement();
@@ -51,7 +51,7 @@ public class ProductDAO implements ProductDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 			System.out.println("connected1");
 			stmt = con
 					.prepareCall("{? = call verizon.insert_values.add_prod(?,?)}");
@@ -82,7 +82,7 @@ public class ProductDAO implements ProductDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update products set "+name+"=? where customer_id=?");
@@ -105,7 +105,7 @@ public class ProductDAO implements ProductDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update products set "+name+"=? where customer_id=?");
@@ -127,7 +127,7 @@ public class ProductDAO implements ProductDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 			PreparedStatement ps = con.prepareStatement("update products set "+name+"=? where customer_id=?");
 			ps.setDate(1, value);

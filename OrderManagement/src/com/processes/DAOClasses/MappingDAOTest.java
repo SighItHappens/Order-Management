@@ -33,7 +33,7 @@ public class MappingDAOTest {
 	public static void tearDown() throws Exception {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		Connection con = DriverManager.getConnection(
-				"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+				"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 				"password");
 		Statement st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 				ResultSet.CONCUR_UPDATABLE);

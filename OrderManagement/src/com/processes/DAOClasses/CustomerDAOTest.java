@@ -33,7 +33,7 @@ public  static void setUp() throws Exception {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
 		Connection con = DriverManager.getConnection(
-				"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+				"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 				"password");
 
 		

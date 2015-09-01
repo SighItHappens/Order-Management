@@ -26,7 +26,7 @@ public class CancelOrderWorkflow extends Thread{
 	public void run()
 	{
 		int requestid=persist.persistRequest(this.currentThread().getId(),orderid, "selfservice", "prov", "in prov");
-		String api = "http://localhost:8086/TestRestServ/rest/om/billingAccountPull/ves";//updatestring
+		String api = "http://localhost:8090/TestRestServ/rest/om/billingAccountPull/ves";//updatestring
 		int responseCode = 0;	
 		JSONObject response=null;
 //		URL url;

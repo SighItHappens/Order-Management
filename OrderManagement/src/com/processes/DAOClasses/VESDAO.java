@@ -22,7 +22,7 @@ public class VESDAO implements VESDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 
 			VESBean vbean = new VESBean();
 			Statement st = con.createStatement();
@@ -53,7 +53,7 @@ public class VESDAO implements VESDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 
 			Statement st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
@@ -97,7 +97,7 @@ public class VESDAO implements VESDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 
 			VESBean vbean = new VESBean();
 			Statement st = con.createStatement();
@@ -133,7 +133,7 @@ public class VESDAO implements VESDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 			stmt = con
 					.prepareCall("{? = call insert_values.generate_contractid(?,?,?,?,?,?,?,?,?)}");
 			stmt.registerOutParameter(1, Types.INTEGER);
@@ -164,7 +164,7 @@ public class VESDAO implements VESDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update ves set "+name+"=? where contract_id=?");
@@ -187,7 +187,7 @@ public class VESDAO implements VESDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update ves set "+name+"=? where contract_id=?");
@@ -209,7 +209,7 @@ public class VESDAO implements VESDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update ves set "+name+"=? where contract_id=?");

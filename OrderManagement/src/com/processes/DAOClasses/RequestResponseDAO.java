@@ -24,7 +24,7 @@ public class RequestResponseDAO implements RequestResponseDAOInf {
 
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		Connection con = DriverManager.getConnection(
-				"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+				"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 				"password");
 		Statement st = con.createStatement();
 		ResultSet rs = st
@@ -51,7 +51,7 @@ public class RequestResponseDAO implements RequestResponseDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			RequestResponseBean rbean = new RequestResponseBean();
@@ -85,7 +85,7 @@ public class RequestResponseDAO implements RequestResponseDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			System.out.println(((RequestResponseBean) record).getSourc());
@@ -121,7 +121,7 @@ public class RequestResponseDAO implements RequestResponseDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update request_response_table set "+name+"=? where request_id=?");
@@ -142,7 +142,7 @@ public class RequestResponseDAO implements RequestResponseDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update request_response_table set "+name+"=? where request_id=?");
@@ -162,7 +162,7 @@ public class RequestResponseDAO implements RequestResponseDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update request_response_table set "+name+"=? where request_id=?");

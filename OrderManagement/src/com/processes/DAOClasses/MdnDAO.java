@@ -38,7 +38,7 @@ public class MdnDAO implements DAOFactory{
 			CallableStatement stmt=null;
 			Connection con;
 			con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 			stmt = con
 					.prepareCall("{? = call verizon.package_mdn.create_mdn()}");

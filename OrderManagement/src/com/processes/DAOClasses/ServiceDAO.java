@@ -22,7 +22,7 @@ public class ServiceDAO implements ServiceDAOInf {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 
 			ServiceBean sbean = new ServiceBean();
 			Statement st = con.createStatement();
@@ -49,7 +49,7 @@ public class ServiceDAO implements ServiceDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon", "password");
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon", "password");
 			System.out.println("connected1");
 			stmt = con
 					.prepareCall("{? = call verizon.insert_values.serv(?,?)}");
@@ -81,7 +81,7 @@ public class ServiceDAO implements ServiceDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update services set "+name+"=? where customer_id=?");
@@ -104,7 +104,7 @@ public class ServiceDAO implements ServiceDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update services set "+name+"=? where customer_id=?");
@@ -126,7 +126,7 @@ public class ServiceDAO implements ServiceDAOInf {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", "verizon",
+					"jdbc:oracle:thin:@localhost:1521:xe", "verizon",
 					"password");
 
 			PreparedStatement ps = con.prepareStatement("update services set "+name+"=? where customer_id=?");
