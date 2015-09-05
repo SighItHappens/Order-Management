@@ -217,7 +217,7 @@ public class OrderWorkflow extends Thread {
 		df.update("order_status", "in_provision", orderid);
 		int requestId = persist.persistRequest(this.currentThread().getId(),
 				orderid, "ordering", "prov", "in prov");
-		String urlStr = "http://192.168.1.65:7562/ProvisionPorts/rest/prov/acceptRequest";
+		String urlStr = "http://localhost:8080/Provision1/rest/prov/acceptRequest";
 		URL urlToRequest;
 		try {
 			urlToRequest = new URL(urlStr);
