@@ -139,9 +139,13 @@ public class Persisting {
 		if(sb==null)
 			flag=false;
 		ServiceBean sbean=new ServiceBean();
+		JSONArray newlist;
 		try {
-		JSONArray newlist=concatenate(provisioned.getJSONArray("listofservices"),new JSONArray(sb.getListOfServices()));
-		sbean.setCustomerID(custid);
+			if(sb.getListOfServices()!=null)
+				newlist=concatenate(provisioned.getJSONArray("service"),new JSONArray(sb.getListOfServices()));
+			else
+				newlist=provisioned.getJSONArray("service");
+			sbean.setCustomerID(custid);
 			sbean.setListOfServices(newlist.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -170,8 +174,12 @@ public class Persisting {
 		ProductBean sb=(ProductBean) df.view(custid);
 		if(sb==null)
 			flag=false;
+		JSONArray newlist;
 		try {
-		JSONArray newlist=concatenate(provisioned.getJSONArray("listofproducts"),new JSONArray(sb.getListOfProducts()));
+			if(sb.getListOfProducts()!=null)
+				newlist=concatenate(provisioned.getJSONArray("product"),new JSONArray(sb.getListOfProducts()));
+			else
+				newlist=provisioned.getJSONArray("product");
 			pbean.setListOfProducts(newlist.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();

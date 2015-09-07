@@ -16,6 +16,7 @@ public class ProvisioningCompleted {
 	public String provisioned(JSONObject output) {
 		persist = new Persisting();
 		int custid;
+		System.out.println("in provisioned "+output);
 		try {
 			custid = output.getInt("customerid");
 			persist.persistServices(custid, output.toString());
@@ -25,11 +26,9 @@ public class ProvisioningCompleted {
 			int requestid = ((RequestResponseDAO) df1).viewByOrderAndSync(
 					output.getInt("orderid"), "prov");
 			df1.update("status", "complete", requestid);
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-			Calendar cal = Calendar.getInstance();
 			DAOLookup.setcInfo("customer");
 			DAOFactory df2 = DAOLookup.getDAOObject();
-			df2.update("bill_start_date", formatter.format(cal), custid);
+			df2.update("bill_start_date",output.getString("provisioningdate") , custid);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return "false";

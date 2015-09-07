@@ -37,6 +37,7 @@ public class ServiceDAO implements ServiceDAOInf {
 			con.close();
 			return sbean;
 		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println("hello");
 			e.printStackTrace();
 		}
 		return null;

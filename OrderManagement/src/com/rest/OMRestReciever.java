@@ -58,6 +58,7 @@ public class OMRestReciever {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String financeRequest(@PathParam("account_no") int account_no,
 			@PathParam("status") int status) {
+		System.out.println("recieved from finance"+ account_no+" "+status);
 		FinanceWorkflow financeworkflow = new FinanceWorkflow(status,
 				account_no);
 		if(financeworkflow.flag)
@@ -96,6 +97,7 @@ public class OMRestReciever {
 	public String provisioningCompleteStatus(String product) {
 		ProvisioningCompleted pc = new ProvisioningCompleted();
 		String result=null;
+		System.out.println("from provisioning finally"+product);
 		try {
 			result=pc.provisioned(new JSONObject(product));
 		} catch (JSONException e) {

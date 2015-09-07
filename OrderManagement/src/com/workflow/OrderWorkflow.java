@@ -211,7 +211,7 @@ public class OrderWorkflow extends Thread {
 
 	@Override
 	public void run() {
-		String output="";
+		String output="",output1="";
 		DAOLookup.setcInfo("order");
 		DAOFactory df = DAOLookup.getDAOObject();
 		df.update("order_status", "in_provision", orderid);
@@ -219,34 +219,33 @@ public class OrderWorkflow extends Thread {
 				orderid, "ordering", "prov", "in prov");
 		String urlStr = "http://localhost:8080/Provision1/rest/prov/acceptRequest";
 		URL urlToRequest;
-		//dsgfjd
 		try {
 			urlToRequest = new URL(urlStr);
-			HttpURLConnection httpConnection = (HttpURLConnection) urlToRequest
-					.openConnection();
+			HttpURLConnection httpConnection = (HttpURLConnection) urlToRequest.openConnection();
 			httpConnection.setDoOutput(true);
 			httpConnection.setRequestMethod("POST");
-			httpConnection.setRequestProperty("Content-Type",
-					MediaType.TEXT_PLAIN);
+			httpConnection.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);
 			OutputStream outputStream = httpConnection.getOutputStream();
 			outputStream.write(provisioning.toString().getBytes());
 			outputStream.flush();
 
 			if (httpConnection.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : "
-						+ httpConnection.getResponseCode());
+				throw new RuntimeException("Failed : HTTP error code : " + httpConnection.getResponseCode());
 			}
 			BufferedReader responseBuffer = new BufferedReader(
 					new InputStreamReader((httpConnection.getInputStream())));
 			System.out.println("OUTPUT: ");
-			while ((output = responseBuffer.readLine()) != null) {
+			while ((output = responseBuffer.readLine())!=null) {
 				System.out.println(output);
+				if(output!=null)
+					output1=output;
 			}
+			
 			httpConnection.disconnect();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(output.equals("true"))
+		if(output1.equals("acknowledge"))
 		{
 			System.out.println("provisioning accepted");
 			df.update("order_status", "out_provision", orderid);
